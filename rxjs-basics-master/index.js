@@ -1,5 +1,7 @@
 import { of, Observable } from 'rxjs';
 
+console.clear();
+
 const observer = {
   next: value => console.log('next', value),
   error: error => console.log('error', error),
@@ -25,7 +27,6 @@ const exampleTwo = new Observable(subscriber => {
 
   const id = setInterval(() => {
     subscriber.next(count);
-    subscriber.complete();
     count += 1;
   }, 1000);
 
@@ -35,5 +36,23 @@ const exampleTwo = new Observable(subscriber => {
   }
 });
 
-exampleTwo.subscribe(observer);
+// console.log('before');
+// exampleTwo.subscribe(observer);
+// console.log('after');
+
+const subscription = exampleTwo.subscribe(
+  observer
+);
+
+const subscriptionTwo = exampleTwo.subscribe(
+  observer
+);
+
+subscription.add(subscriptionTwo);
+
+
+setTimeout(() => {
+  subscription.unsubscribe();
+  // subscriptionTwo.unsubscribe();
+}, 3500);
 

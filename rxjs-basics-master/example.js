@@ -13,5 +13,7 @@ const observable = new Observable(subscriber => {
 });
 
 observable.subscribe(
-
+  value => console.log('next', value),
+  null,
+  () => console.log('complete!')
 );

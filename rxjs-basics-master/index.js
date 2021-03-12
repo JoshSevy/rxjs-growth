@@ -1,4 +1,4 @@
-import { of, Observable, fromEvent } from 'rxjs';
+import { of, Observable, fromEvent, from, range } from 'rxjs';
 
 console.clear();
 
@@ -91,6 +91,33 @@ setTimeout(() => {
  * the array.
  */
 
-const source$ = of(1,2,3,4,5);
+// const source$ = of(1,2,3,4,5);
+
+/*
+* range(1, 5) takes in a starting value and ending value
+* giving the same result as the example above using of
+*/
+
+/*
+ * from operator allows iteration through what passed in
+*/
+
+// const source$ = from([1,2,3,4,5]);
+//const source$ = from('Hello World');
+
+//* Using from with a generator function
+
+function* hello() {
+  yield 'Hello';
+  yield 'World';
+}
+
+const iterator = hello();
+// console.log(iterator.next().value);
+// console.log(iterator.next().value);
+
+// const source$ = from(fetch('https://api.github.com/users/octocat'));
+
+const source$ = from(iterator);
 
 source$.subscribe(observer);

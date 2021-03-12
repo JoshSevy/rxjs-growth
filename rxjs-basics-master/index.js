@@ -1,4 +1,4 @@
-import { of, Observable, fromEvent, from, range } from 'rxjs';
+import { of, Observable, fromEvent, from, range, interval, timer } from 'rxjs';
 
 console.clear();
 
@@ -63,11 +63,11 @@ setTimeout(() => {
 
 // SECTION 2 CREATION OPERATORS
 
-const observer = {
-  next: val => console.log('next', val),
-  error: err => console.log('error', err),
-  complete: () => console.log('complete!')
-}
+// const observer = {
+//   next: val => console.log('next', val),
+//   error: err => console.log('error', err),
+//   complete: () => console.log('complete!')
+// }
 
 /*!
 //! Lesson Two Section 2
@@ -107,17 +107,25 @@ setTimeout(() => {
 
 //* Using from with a generator function
 
-function* hello() {
-  yield 'Hello';
-  yield 'World';
-}
+// function* hello() {
+//   yield 'Hello';
+//   yield 'World';
+// }
 
-const iterator = hello();
+// const iterator = hello();
 // console.log(iterator.next().value);
 // console.log(iterator.next().value);
 
 // const source$ = from(fetch('https://api.github.com/users/octocat'));
 
-const source$ = from(iterator);
+// const source$ = from(iterator);
 
-source$.subscribe(observer);
+// source$.subscribe(observer);
+
+//* LESSON 4 EMIT items based on a duration
+//! Operators used interval, timer
+
+const timer$ = timer(0, 2000);
+
+// timer$.subscribe(console.log)
+

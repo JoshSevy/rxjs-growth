@@ -69,6 +69,8 @@ const observer = {
   complete: () => console.log('complete!')
 }
 
+/*!
+//! Lesson Two Section 2
 const source$ = fromEvent(document, 'keyup');
 
 const subOne = source$.subscribe(observer);
@@ -78,3 +80,17 @@ setTimeout(() => {
   console.log('unsubscribing');
   subOne.unsubscribe();
 }, 3000);
+*/
+
+
+/*
+ * Emits each item you provide in sequence, synchronously.
+ * of literally just loops through the items and emits them,
+ * there is no flattening involved. For instance, if you pass an
+ * array the entire array will be emitted, not each item within
+ * the array.
+ */
+
+const source$ = of(1,2,3,4,5);
+
+source$.subscribe(observer);

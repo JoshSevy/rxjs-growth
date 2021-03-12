@@ -1,7 +1,10 @@
-import { of, Observable } from 'rxjs';
+import { of, Observable, fromEvent } from 'rxjs';
 
 console.clear();
 
+
+// SETION ONE OBSERVABLES SCRATCH
+/*
 const observer = {
   next: value => console.log('next', value),
   error: error => console.log('error', error),
@@ -56,3 +59,22 @@ setTimeout(() => {
   // subscriptionTwo.unsubscribe();
 }, 3500);
 
+*/
+
+// SECTION 2 CREATION OPERATORS
+
+const observer = {
+  next: val => console.log('next', val),
+  error: err => console.log('error', err),
+  complete: () => console.log('complete!')
+}
+
+const source$ = fromEvent(document, 'keyup');
+
+const subOne = source$.subscribe(observer);
+const subTwo = source$.subscribe(observer);
+
+setTimeout(() => {
+  console.log('unsubscribing');
+  subOne.unsubscribe();
+}, 3000);

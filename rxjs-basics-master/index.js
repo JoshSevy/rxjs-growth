@@ -201,26 +201,26 @@ const number = [1,2,3,4,5];
 
 //* Manage state changes with scan
 
-const user = [
-  {name: 'Brian', loggedIn: false, token: null},
-  {name: 'Josh', loggedIn: true, token: 'abc'},
-  {name: 'Nicole', loggendIn: false, token: null}
-]
+// const user = [
+//   {name: 'Brian', loggedIn: false, token: null},
+//   {name: 'Josh', loggedIn: true, token: 'abc'},
+//   {name: 'Nicole', loggendIn: false, token: null}
+// ]
 
-from(numbers).pipe(
-  scan((accumulator, currentValue) => {
-    return accumulator + currentValue;
-  }, 0)
-).subscribe(console.log)
+// from(numbers).pipe(
+//   scan((accumulator, currentValue) => {
+//     return accumulator + currentValue;
+//   }, 0)
+// ).subscribe(console.log)
 
-const state$ = from(user).pipe(
-  scan((accumulator, currentValue) => {
-    return { ...accumulator, ...currentValue };
-  }, {})
-)
+// const state$ = from(user).pipe(
+//   scan((accumulator, currentValue) => {
+//     return { ...accumulator, ...currentValue };
+//   }, {})
+// )
 
-const name$ = state$.pipe(
-  map(state => state.name)
-)
+// const name$ = state$.pipe(
+//   map(state => state.name)
+// )
 
-name$.subscribe(console.log);
+// name$.subscribe(console.log);

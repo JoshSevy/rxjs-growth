@@ -30,10 +30,6 @@ body {
   justify-content: center;
 }
 
-div .progress-bar {
-  width: 100%;
-}
-
 .progress-bar {
   position: fixed;
   top: 0px;
@@ -82,6 +78,11 @@ div .progress-bar {
   margin-right: 14px;
   position: relative;
   top: 6px;
+}
+
+#countdown {
+  margin-top: 20px;
+  font-size: 32px;
 }
 
 

@@ -1,5 +1,5 @@
-import { fromEvent } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { fromEvent, interval } from 'rxjs';
+import { filter, map, mapTo, scan } from 'rxjs/operators';
 
 // helpers
 function calculateScrollPercent(element) {
@@ -27,4 +27,19 @@ const progress$ = scroll$.pipe(
 
 progress$.subscribe(percent => {
   progressBar.style.width = `${percent}`;
+});
+
+const counter$ = interval(1000);
+
+counter$.pipe(
+  mapTo(-1),
+  scan((accumulator, current) => {
+    return accumulator + current;
+  }, 10),
+  filter(value => value >= 0)
+).subscribe(value => {
+  countdown.innerHTML = value;
+  if (!value) {
+    message.innerHTML = 'Liftoff!'
+  }
 });

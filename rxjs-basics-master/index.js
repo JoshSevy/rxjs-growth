@@ -1,5 +1,5 @@
 import { of, Observable, fromEvent, from, range, interval, timer } from 'rxjs';
-import { reduce, map, pluck, mapTo, filter } from 'rxjs/operators';
+import { reduce, map, pluck, mapTo, filter, scan } from 'rxjs/operators';
 
 console.clear();
 
@@ -179,22 +179,48 @@ const keyup$ = fromEvent(document, 'keyup');
 
 const number = [1,2,3,4,5];
 
-const totalReducer = (accumulator, currentValue) => {
-  return accumulator + currentValue;
- };
+// const totalReducer = (accumulator, currentValue) => {
+//   return accumulator + currentValue;
+//  };
 //! example array reduce
 // const total = number.reduce(totalReducer, 0);
 
-from(numbers).pipe(
-  reduce(totalReducer, 0)
-).subscribe()
+// from(numbers).pipe(
+//   reduce(totalReducer, 0)
+// ).subscribe()
 
 
 //interval with reduce
-interval(1000).pipe(
-  take(3),
-  reduce(totalReducer, 0)
-).subscribe({
-  next: console.log,
-  complete: () => console.log("Complete!")
-});
+// interval(1000).pipe(
+//   take(3),
+//   reduce(totalReducer, 0)
+// ).subscribe({
+//   next: console.log,
+//   complete: () => console.log("Complete!")
+// });
+
+//* Manage state changes with scan
+
+const user = [
+  {name: 'Brian', loggedIn: false, token: null},
+  {name: 'Josh', loggedIn: true, token: 'abc'},
+  {name: 'Nicole', loggendIn: false, token: null}
+]
+
+from(numbers).pipe(
+  scan((accumulator, currentValue) => {
+    return accumulator + currentValue;
+  }, 0)
+).subscribe(console.log)
+
+const state$ = from(user).pipe(
+  scan((accumulator, currentValue) => {
+    return { ...accumulator, ...currentValue };
+  }, {})
+)
+
+const name$ = state$.pipe(
+  map(state => state.name)
+)
+
+name$.subscribe(console.log);

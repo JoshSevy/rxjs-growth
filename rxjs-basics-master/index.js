@@ -1,4 +1,5 @@
 import { of, Observable, fromEvent, from, range, interval, timer } from 'rxjs';
+import { map, pluck, mapTo } from 'rxjs/operators';
 
 console.clear();
 
@@ -125,7 +126,34 @@ setTimeout(() => {
 //* LESSON 4 EMIT items based on a duration
 //! Operators used interval, timer
 
-const timer$ = timer(0, 2000);
+// const timer$ = timer(0, 2000);
 
 // timer$.subscribe(console.log)
 
+
+//* Lesson 5 Transform streams using map operator
+
+// of(1,2,3,4,5).pipe(
+//   map((value) => value * 10)
+// ).subscribe(console.log)
+
+const keyup$ = fromEvent(document, 'keyup');
+
+//!keycode with map
+const keycode$ = keyup$.pipe(
+  map(event => event.code)
+);
+
+//!keycode with pluck same result
+const keycodeWithPluck$ = keyup$.pipe(
+  pluck('code')
+);
+
+const pressed$ = keyup$.pipe(
+  mapTo('Key Pressed!');
+);
+
+// keyup$.subscribe(console.log);
+keycode$.subscribe(console.log);
+keycodeWithPluck$.subscribe(console.log);
+pressed$.subscribe(console.log);

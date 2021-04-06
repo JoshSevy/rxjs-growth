@@ -1,5 +1,5 @@
 import { of, Observable, fromEvent, from, range, interval, timer } from 'rxjs';
-import { map, pluck, mapTo } from 'rxjs/operators';
+import { map, pluck, mapTo, filter } from 'rxjs/operators';
 
 console.clear();
 
@@ -140,20 +140,37 @@ setTimeout(() => {
 const keyup$ = fromEvent(document, 'keyup');
 
 //!keycode with map
-const keycode$ = keyup$.pipe(
-  map(event => event.code)
-);
+// const keycode$ = keyup$.pipe(
+//   map(event => event.code)
+// );
 
 //!keycode with pluck same result
-const keycodeWithPluck$ = keyup$.pipe(
-  pluck('code')
-);
+// const keycodeWithPluck$ = keyup$.pipe(
+//   pluck('code')
+// );
 
-const pressed$ = keyup$.pipe(
-  mapTo('Key Pressed!');
-);
+// const pressed$ = keyup$.pipe(
+//   mapTo('Key Pressed!')
+// );
 
 // keyup$.subscribe(console.log);
+// keycode$.subscribe(console.log);
+// keycodeWithPluck$.subscribe(console.log);
+// pressed$.subscribe(console.log);
+
+//* Filter operator
+
+// of(1,2,3,4,5).pipe(
+//   filter(value => value > 2)
+// ).subscribe(console.log)
+
+const keycode$ = keyup$.pipe(
+  map(event => event.code),
+)
+
+const enter$ = keycode$.pipe(
+  filter(code => code === 'Enter')
+)
+
+enter$.subscribe(console.log);
 keycode$.subscribe(console.log);
-keycodeWithPluck$.subscribe(console.log);
-pressed$.subscribe(console.log);

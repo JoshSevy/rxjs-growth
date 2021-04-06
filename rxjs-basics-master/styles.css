@@ -49,6 +49,14 @@ body {
   height: 100%;
 }
 
+.progress-bar {
+  position: fixed;
+  top: 20px;
+  height: 100px;
+  width: 0%;
+  background: #ff16ab;
+}
+
 #app {
   padding-top: 50px;
   text-align: center;

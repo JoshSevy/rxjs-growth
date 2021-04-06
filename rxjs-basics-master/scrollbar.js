@@ -2,7 +2,6 @@ import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // helpers
-
 function calculateScrollPercent(element) {
   const {
     scrollTop,
@@ -23,7 +22,7 @@ const scroll$ = fromEvent(document, 'scroll');
 const progress$ = scroll$.pipe(
   //percent progress
   map(({target}) => calculateScrollPercent(
-    target.documentElement
+    target.scrollingElement
   ))
 );
 

@@ -11,7 +11,7 @@ export class AppComponent implements OnInit, OnDestroy {
   observable$;
 
   ngOnInit() {
-    const observable$ = Observable.create((observer) => {
+    const observable$ = new Observable((observer) => {
       observer.next(1);
       observer.next(2);
       observer.next(3);

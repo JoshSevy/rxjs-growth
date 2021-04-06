@@ -1,5 +1,5 @@
 import { of, Observable, fromEvent, from, range, interval, timer } from 'rxjs';
-import { map, pluck, mapTo, filter } from 'rxjs/operators';
+import { reduce, map, pluck, mapTo, filter } from 'rxjs/operators';
 
 console.clear();
 
@@ -164,13 +164,37 @@ const keyup$ = fromEvent(document, 'keyup');
 //   filter(value => value > 2)
 // ).subscribe(console.log)
 
-const keycode$ = keyup$.pipe(
-  map(event => event.code),
-)
+// const keycode$ = keyup$.pipe(
+//   map(event => event.code),
+// )
 
-const enter$ = keycode$.pipe(
-  filter(code => code === 'Enter')
-)
+// const enter$ = keycode$.pipe(
+//   filter(code => code === 'Enter')
+// )
 
-enter$.subscribe(console.log);
-keycode$.subscribe(console.log);
+// enter$.subscribe(console.log);
+// keycode$.subscribe(console.log);
+
+//* Reducer
+
+const number = [1,2,3,4,5];
+
+const totalReducer = (accumulator, currentValue) => {
+  return accumulator + currentValue;
+ };
+//! example array reduce
+// const total = number.reduce(totalReducer, 0);
+
+from(numbers).pipe(
+  reduce(totalReducer, 0)
+).subscribe()
+
+
+//interval with reduce
+interval(1000).pipe(
+  take(3),
+  reduce(totalReducer, 0)
+).subscribe({
+  next: console.log,
+  complete: () => console.log("Complete!")
+});

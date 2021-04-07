@@ -1,5 +1,5 @@
 import { fromEvent, interval } from 'rxjs';
-import { filter, map, mapTo, scan, tap } from 'rxjs/operators';
+import { filter, map, mapTo, scan, tap, takeWhile } from 'rxjs/operators';
 
 // helpers
 function calculateScrollPercent(element) {
@@ -37,7 +37,7 @@ counter$.pipe(
     return accumulator + current;
   }, 10),
   tap(console.log),
-  filter(value => value >= 0)
+  takeWhile(value => value >= 0)
 ).subscribe(value => {
   countdown.innerHTML = value;
   if (!value) {

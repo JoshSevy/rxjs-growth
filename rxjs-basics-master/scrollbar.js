@@ -1,5 +1,17 @@
 import { fromEvent, interval } from 'rxjs';
-import { filter, map, mapTo, scan, tap, takeWhile, takeUntil, debounceTime } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  mapTo,
+  scan,
+  tap,
+  takeWhile,
+  takeUntil,
+  debounceTime,
+  pluck,
+  distinctUntilChanged,
+  debounce
+ } from 'rxjs/operators';
 
 // helpers
 function calculateScrollPercent(element) {
@@ -45,8 +57,6 @@ progress$.subscribe(percent => {
   progressBar.style.width = `${percent}`;
 });
 
-
-
 const counter$ = interval(1000);
 const abortClick$ = fromEvent(abortButton, 'click');
 
@@ -69,5 +79,9 @@ const click$ = fromEvent(document, 'click');
 const input$ = fromEvent(inputBox, 'keyup');
 
 input$.pipe(
-  debounceTime(1000)
+  // debounceTime(1000),
+  //equal to decounceTime
+  debounce(() => interval(1000)),
+  pluck('target', 'value'),
+  distinctUntilChanged()
 ).subscribe(console.log)

@@ -1,5 +1,5 @@
-import { of, fromEvent } from 'rxjs';
-import { first, take, takeWhile, map } from 'rxjs/operators';
+import { of, fromEvent, interval } from 'rxjs';
+import { first, take, takeWhile, map, takeUntil } from 'rxjs/operators';
 
 const numbers$ = of(1,2,3,4,5);
 const click$ = fromEvent(document, 'click');
@@ -14,3 +14,11 @@ numbers$.pipe(
   next: console.log,
   complete: () => console.log('Complete')
 })
+
+const counter$ = interval(1000);
+
+const click$ = fromEvent(document, 'click');
+
+counter$.pipe(
+  takeUntil(click$)
+).subscribe(console.log);

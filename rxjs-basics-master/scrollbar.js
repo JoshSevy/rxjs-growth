@@ -14,6 +14,9 @@ import {
   throttleTime
  } from 'rxjs/operators';
 
+ import { ajax } from 'rxjs/ajax';
+
+
 // helpers
 function calculateScrollPercent(element) {
   const {
@@ -85,9 +88,13 @@ const click$ = fromEvent(document, 'click');
 const input$ = fromEvent(inputBox, 'keyup');
 
 input$.pipe(
-  // debounceTime(1000),
-  //equal to decounceTime
-  debounce(() => interval(1000)),
-  pluck('target', 'value'),
-  distinctUntilChanged()
-).subscribe(console.log)
+  map(event => {
+    const term = event.target.value;
+    return ajax.getJSON(
+      `https://api.github.com/users/${term}`
+    )
+  }),
+  debounceTime(1000)
+).subscribe(obs => {
+  obs.subscribe(console.log)
+})

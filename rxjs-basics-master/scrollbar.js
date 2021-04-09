@@ -10,7 +10,8 @@ import {
   debounceTime,
   pluck,
   distinctUntilChanged,
-  debounce
+  debounce,
+  throttleTime
  } from 'rxjs/operators';
 
 // helpers
@@ -21,7 +22,7 @@ function calculateScrollPercent(element) {
     clientHeight
   } = element;
 
-  return (scrollTop / (scrollHeight - clientHeight)) * 1000;
+  return (scrollTop / (scrollHeight - clientHeight)) * 100;
 }
 // elems
 const progressBar = document.querySelector(
@@ -48,9 +49,11 @@ const inputBox = document.getElementById(
 const scroll$ = fromEvent(document, 'scroll');
 const progress$ = scroll$.pipe(
   //percent progress
+  throttleTime(200),
   map(({target}) => calculateScrollPercent(
     target.scrollingElement
-  ))
+  )),
+  tap(console.log)
 );
 
 progress$.subscribe(percent => {

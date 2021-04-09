@@ -1,4 +1,4 @@
-import { asyncScheduler, fromEvent, interval } from 'rxjs';
+import { asyncScheduler, fromEvent, interval, mergeMap } from 'rxjs';
 import {
   filter,
   map,
@@ -11,7 +11,8 @@ import {
   pluck,
   distinctUntilChanged,
   debounce,
-  throttleTime
+  throttleTime,
+  mergeAll
  } from 'rxjs/operators';
 
  import { ajax } from 'rxjs/ajax';
@@ -88,13 +89,11 @@ const click$ = fromEvent(document, 'click');
 const input$ = fromEvent(inputBox, 'keyup');
 
 input$.pipe(
-  map(event => {
+  debounceTime(1000),
+  mergeMap(event => {
     const term = event.target.value;
     return ajax.getJSON(
       `https://api.github.com/users/${term}`
     )
-  }),
-  debounceTime(1000)
-).subscribe(obs => {
-  obs.subscribe(console.log)
-})
+  })
+).subscribe(cosole.log)

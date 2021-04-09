@@ -1,4 +1,4 @@
-import { fromEvent, interval } from 'rxjs';
+import { asyncScheduler, fromEvent, interval } from 'rxjs';
 import {
   filter,
   map,
@@ -49,7 +49,10 @@ const inputBox = document.getElementById(
 const scroll$ = fromEvent(document, 'scroll');
 const progress$ = scroll$.pipe(
   //percent progress
-  throttleTime(200),
+  throttleTime(30, asyncScheduler, {
+    leading: false,
+    trailing: true
+  }),
   map(({target}) => calculateScrollPercent(
     target.scrollingElement
   )),
@@ -57,7 +60,7 @@ const progress$ = scroll$.pipe(
 );
 
 progress$.subscribe(percent => {
-  progressBar.style.width = `${percent}`;
+  progressBar.style.width = `${percent}%`;
 });
 
 const counter$ = interval(1000);

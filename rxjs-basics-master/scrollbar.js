@@ -1,4 +1,4 @@
-import { asyncScheduler, fromEvent, interval, mergeMap, switchMap } from 'rxjs';
+import { asyncScheduler, fromEvent, interval, mergeMap } from 'rxjs';
 import {
   filter,
   map,
@@ -12,7 +12,8 @@ import {
   distinctUntilChanged,
   debounce,
   throttleTime,
-  mergeAll
+  mergeAll,
+  switchMap
  } from 'rxjs/operators';
 
  import { ajax } from 'rxjs/ajax';
@@ -50,6 +51,8 @@ const abortButton = document.getElementById(
 const inputBox = document.getElementById(
   'text-input'
 );
+
+const typeaheadContainer = document.getElementById('typeahead-container');
 
 //streams
 const scroll$ = fromEvent(document, 'scroll');
@@ -95,8 +98,10 @@ input$.pipe(
   pluck('target', 'value'),
   distinctUntilChanged(),
   switchMap(searchTerm => {
-    return ajax.getJSON(
-      `${BASE_URL}?by_name=?${searchTerm}`
-      )
+    return ajax.getJSON(`${BASE_URL}?by_name=?${searchTerm}`)
   })
-).subscribe(cosole.log);
+).subscribe(response => {
+  typeaheadContainer.innerHTML = response.map(
+    b => b.name
+  ).join('<br/>');
+});

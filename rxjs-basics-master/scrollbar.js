@@ -1,4 +1,4 @@
-import { asyncScheduler, fromEvent, interval, mergeMap } from 'rxjs';
+import { asyncScheduler, fromEvent, interval, mergeMap, switchMap } from 'rxjs';
 import {
   filter,
   map,
@@ -16,6 +16,8 @@ import {
  } from 'rxjs/operators';
 
  import { ajax } from 'rxjs/ajax';
+
+ const BASE_URL = 'https://api.openbrewerydb.org/breweries';
 
 
 // helpers
@@ -89,11 +91,12 @@ const click$ = fromEvent(document, 'click');
 const input$ = fromEvent(inputBox, 'keyup');
 
 input$.pipe(
-  debounceTime(1000),
-  mergeMap(event => {
-    const term = event.target.value;
+  debounceTime(200),
+  pluck('target', 'value'),
+  distinctUntilChanged(),
+  switchMap(searchTerm => {
     return ajax.getJSON(
-      `https://api.github.com/users/${term}`
-    )
+      `${BASE_URL}?by_name=?${searchTerm}`
+      )
   })
-).subscribe(cosole.log)
+).subscribe(cosole.log);

@@ -103,7 +103,7 @@ input$.pipe(
   pluck('target', 'value'),
   distinctUntilChanged(),
   switchMap(searchTerm => {
-    return ajax.getJSON(`${BASE_URL}?by_name=?${searchTerm}`)
+    return ajax.getJSON(`${BASE_URL}/search?query=${searchTerm}`)
   })
 ).subscribe(response => {
   typeaheadContainer.innerHTML = response.map(

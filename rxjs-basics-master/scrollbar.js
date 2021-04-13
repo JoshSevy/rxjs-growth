@@ -1,4 +1,4 @@
-import { asyncScheduler, fromEvent, interval, mergeMap } from 'rxjs';
+import { asyncScheduler, fromEvent, interval, mergeMap, of } from 'rxjs';
 import {
   filter,
   map,
@@ -13,7 +13,8 @@ import {
   debounce,
   throttleTime,
   mergeAll,
-  switchMap
+  switchMap,
+  concatMap
  } from 'rxjs/operators';
 
  import { ajax } from 'rxjs/ajax';
@@ -53,6 +54,10 @@ const inputBox = document.getElementById(
 );
 
 const typeaheadContainer = document.getElementById('typeahead-container');
+
+const radioButtons = document.querySelectorAll(
+  '.radio-option'
+);
 
 //streams
 const scroll$ = fromEvent(document, 'scroll');
@@ -105,3 +110,24 @@ input$.pipe(
     b => b.name
   ).join('<br/>');
 });
+
+click$.pipe(
+  concatMap(() => interval(1000).pipe(take(3)))
+).subscribe(console.log);
+
+const saveAnswer = answer => {
+  //simulate delayed response
+  return of(`Saved: ${answer}`).pipe(
+    delay(1500)
+  )
+}
+
+const answerChange$ = fromEvent(
+  radioButtons, 'click'
+);
+
+answerChange$.pipe(
+  concatMap(event => saveAnswer(
+    event.target.value
+  ))
+).subscribe(console.log)

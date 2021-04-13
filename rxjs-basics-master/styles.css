@@ -89,4 +89,14 @@ body {
   margin-top: 20px;
 }
 
+p {
+  margin-top: 20px;
+}
+
+.radio-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
